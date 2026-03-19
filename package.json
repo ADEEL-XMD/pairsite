@@ -4,9 +4,9 @@
     "description": "A multi functional whatsapp bot Web paircode.",
     "main": "index.js",
     "scripts": {
-      "start": "pm2 start index.js --deep-monitoring --attach --name ADEEL XMD",
-      "stop": "pm2 stop ADEEL XMD",
-     "restart": "pm2 restart ADEEL XMD"
+      "start": "pm2 start index.js --deep-monitoring --attach --name DARK-KNIGHT",
+      "stop": "pm2 stop DARK-KNIGHT",
+     "restart": "pm2 restart DARK-KNIGHT"
     },
    "dependencies": {
     "@whiskeysockets/baileys": "npm:wileys",          
