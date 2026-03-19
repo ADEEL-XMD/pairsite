@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>𝐀𝐃𝚵𝚵𝐋-𝐌𝐃 - WhatsApp Pair & QR</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&amp;display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #000000;
+      color: #FFFFFF;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 15px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 800px;
+      background: #111111;
+      border-radius: 16px;
+      padding: 25px;
+      box-shadow: 0 10px 30px rgba(255, 255, 255, 0.1);
+      border: 1px solid #333333;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .container::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 8px;
+      background: linear-gradient(135deg, #FFFFFF, #CCCCCC);
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .logo {
+      width: 70px;
+      height: 70px;
+      margin: 0 auto 16px;
+      background: linear-gradient(135deg, #FFFFFF, #CCCCCC);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      color: #000000;
+      box-shadow: 0 5px 15px rgba(255, 255, 255, 0.3);
+    }
+
+    .title {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: #FFFFFF;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .subtitle {
+      font-size: 14px;
+      color: #CCCCCC;
+      margin-bottom: 20px;
+    }
+
+    .tab-container {
+      display: flex;
+      margin-bottom: 20px;
+      border-bottom: 1px solid #333333;
+    }
+
+    .tab {
+      padding: 12px 24px;
+      background: transparent;
+      border: none;
+      color: #CCCCCC;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border-bottom: 3px solid transparent;
+    }
+
+    .tab.active {
+      color: #FFFFFF;
+      border-bottom: 3px solid #FFFFFF;
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    .social-icons {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .social-icons a {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #000000;
+      font-size: 18px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+      background: #FFFFFF;
+    }
+
+    .social-icons a:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(255, 255, 255, 0.3);
+    }
+
+    .input-group {
+      margin-bottom: 15px;
+    }
+
+    .input-label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+      font-size: 13px;
+      color: #FFFFFF;
+    }
+
+    .input-field {
+      width: 100%;
+      padding: 12px;
+      border: 1.5px solid #555555;
+      border-radius: 12px;
+      background: #000000;
+      color: #FFFFFF;
+      font-size: 15px;
+      transition: all 0.3s ease;
+    }
+
+    .input-field:focus {
+      outline: none;
+      border-color: #FFFFFF;
+      box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3);
+    }
+
+    .generate-btn {
+      width: 100%;
+      padding: 12px;
+      background: linear-gradient(135deg, #FFFFFF, #CCCCCC);
+      border: none;
+      border-radius: 12px;
+      color: #000000;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-bottom: 16px;
+      box-shadow: 0 4px 6px rgba(255, 255, 255, 0.4);
+    }
+
+    .generate-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 12px rgba(255, 255, 255, 0.5);
+      background: linear-gradient(135deg, #CCCCCC, #FFFFFF);
+    }
+
+    .code-display {
+      background: #000000;
+      padding: 12px;
+      border-radius: 12px;
+      text-align: center;
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 16px;
+      min-height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1.5px solid #555555;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      color: #FFFFFF;
+    }
+
+    .copy-btn {
+      width: 100%;
+      padding: 12px;
+      background: #000000;
+      border: 1.5px solid #FFFFFF;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      color: #FFFFFF;
+      transition: all 0.3s ease;
+    }
+
+    .copy-btn:hover {
+      background: #FFFFFF;
+      color: #000000;
+      box-shadow: 0 2px 8px rgba(255, 255, 255, 0.3);
+    }
+
+    .success-message {
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-size: 16px;
+    }
+
+    .error-message {
+      color: #FF6B6B;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-size: 14px;
+    }
+
+    .loading {
+      display: none;
+      text-align: center;
+      margin: 16px 0;
+    }
+
+    .loading i {
+      font-size: 24px;
+      color: #FFFFFF;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* QR Code Styles */
+    #qr-container {
+      text-align: center;
+    }
+
+    #qr-image {
+      max-width: 100%;
+      height: auto;
+      border-radius: 10px;
+      border: 1px solid #555555;
+      margin-bottom: 20px;
+    }
+
+    .qr-title {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: #FFFFFF;
+    }
+
+    .qr-description {
+      font-size: 14px;
+      color: #CCCCCC;
+      margin-bottom: 20px;
+    }
+
+    .progress-container {
+      margin: 20px 0;
+    }
+
+    progress {
+      width: 100%;
+      height: 10px;
+      border-radius: 5px;
+      background: #000000;
+      border: 1px solid #555555;
+    }
+
+    progress::-webkit-progress-bar {
+      background: #000000;
+      border-radius: 5px;
+    }
+
+    progress::-webkit-progress-value {
+      background: #FFFFFF;
+      border-radius: 5px;
+    }
+
+    progress::-moz-progress-bar {
+      background: #FFFFFF;
+      border-radius: 5px;
+    }
+
+    .reload-button {
+      display: inline-block;
+      padding: 10px 20px;
+      background: #FFFFFF;
+      color: #000000;
+      text-decoration: none;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+      font-weight: 600;
+      margin-top: 10px;
+    }
+
+    .reload-button:hover {
+      background: #CCCCCC;
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 12px;
+      color: #CCCCCC;
+    }
+
+    /* Toast styles */
+    #toast {
+      display: none;
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #FFFFFF;
+      color: #000000;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-size: 14px;
+      z-index: 1000;
+      box-shadow: 0 4px 12px rgba(255, 255, 255, 0.4);
+      transition: all 0.3s ease;
+      opacity: 0;
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 20px;
+        border-radius: 12px;
+      }
+
+      .code-display {
+        font-size: 16px;
+        min-height: 50px;
+      }
+    }
+
+    /* Decorations */
+    .star {
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      background: radial-gradient(circle, #FFFFFF, #CCCCCC);
+      border-radius: 50%;
+      opacity: 0.1;
+      z-index: -1;
+    }
+
+    .star-1 {
+      top: -50px;
+      right: -50px;
+    }
+
+    .star-2 {
+      bottom: -20px;
+      left: -30px;
+    }
+  </style>
+</head>
+<body>
+  <div class="star star-1"></div>
+  <div class="star star-2"></div>
+
+  <div class="container">
+    <div class="header">
+      <div class="logo"><i class="fas fa-robot"></i></div>
+      <h1 class="title">𝐀𝐃𝚵𝚵𝐋-𝐌𝐃</h1>
+      <p class="subtitle">WhatsApp Pair Code & QR Generator</p>
+      <div class="social-icons">
+        <a href="https://youtube.com/shorts/ApeFx8g-1qk?si=CJiHxDFNg0TmVBQ8" target="_blank" class="youtube"><i class="fab fa-youtube"></i></a>
+        <a href="https://t.me/mafiahackingzone" target="_blank" class="telegram"><i class="fab fa-github"></i></a>
+        <a href="https://whatsapp.com/channel/0029VbC15ycFHWpubqmNWe0N" target="_blank" class="whatsapp"><i class="fas fa-phone"></i></a>
+        <a href="https://github.com/ADEEL-XMD/ADEEL-AI-XD" target="_blank" class="github"><i class="fab fa-github"></i></a>
+      </div>
+    </div>
+
+    <div class="tab-container">
+      <button class="tab active" data-tab="pair">Pair Code</button>
+      <button class="tab" data-tab="qr">QR Code</button>
+    </div>
+
+    <!-- Pair Code Tab -->
+    <div class="tab-content active" id="pair-tab">
+      <div class="input-group">
+        <label class="input-label">Enter your WhatsApp number with country code</label>
+        <input type="tel" id="mobileNumber" class="input-field" placeholder="923174838990" pattern="[0-9]{8,}" title="Please enter your full phone number including country code">
+        <p style="font-size: 12px; color: #CCCCCC; margin-top: 5px;">Example: <span style="font-weight: bold;">923174838990</span> (92 for Pakistan)</p>
+      </div>
+
+      <button class="generate-btn" id="submit">
+        <i class="fas fa-key"></i> Generate Pair Code
+      </button>
+
+      <div class="loading" id="loading">
+        <i class="fas fa-spinner"></i>
+      </div>
+
+      <div class="code-display" id="codeDisplay">
+        Your pair code will appear here
+      </div>
+
+      <button class="copy-btn" id="copy" onclick="copyCode()">
+        <i class="fas fa-copy"></i> Copy Code
+      </button>
+    </div>
+
+    <!-- QR Code Tab -->
+    <div class="tab-content" id="qr-tab">
+      <div id="qr-container">
+        <img id="qr-image" src="/server" alt="QR CODE">
+        <h2 class="qr-title">Scan The QR Code</h2>
+        <p class="qr-description">Scan this QR code with your WhatsApp to connect</p>
+        
+        <div class="progress-container">
+          <progress value="0" max="30" id="progressBar"></progress>
+        </div>
+        
+        <a href="javascript:history.go(0)" class="reload-button">Reload Page</a>
+      </div>
+    </div>
+
+    <div class="footer">
+      <p>𝐀𝐃𝚵𝚵𝐋-𝐌𝐃</p>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div id="toast">Code copied to clipboard!</div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.0.0-alpha.1/axios.min.js"></script>
+  <script>
+    // Tab switching functionality
+    document.querySelectorAll('.tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        // Remove active class from all tabs and contents
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        
+        // Add active class to clicked tab and corresponding content
+        tab.classList.add('active');
+        document.getElementById(`${tab.dataset.tab}-tab`).classList.add('active');
+      });
+    });
+
+    // Pair code generation
+    document.getElementById("submit").addEventListener("click", async (e) => {
+      e.preventDefault();
+      const mobileNumberInput = document.getElementById("mobileNumber");
+      const codeDisplay = document.getElementById("codeDisplay");
+      const loadingSpinner = document.getElementById("loading");
+
+      const mobileNumber = mobileNumberInput.value.trim();
+      if (!mobileNumber) {
+        codeDisplay.innerHTML = '<div class="error-message"><i class="fas fa-exclamation-circle"></i> Please enter your WhatsApp number</div>';
+        document.getElementById("copy").style.display = "none";
+        return;
+      }
+
+      loadingSpinner.style.display = "block";
+      codeDisplay.innerHTML = '';
+      document.getElementById("copy").style.display = "none";
+
+      try {
+        const response = await axios(`/code?number=${mobileNumber.replace(/[^0-9]/g, "")}`);
+        const code = response.data.code || "Service Unavailable";
+        if (code === "Service Unavailable") {
+          codeDisplay.innerHTML = '<div class="error-message"><i class="fas fa-exclamation-circle"></i> Service Unavailable</div>';
+        } else {
+          codeDisplay.innerHTML = `<div class="success-message"><i class="fas fa-check-circle"></i> CODE: ${code}</div>`;
+          document.getElementById("copy").style.display = "flex";
+        }
+      } catch (error) {
+        console.error("Error generating code:", error);
+        codeDisplay.innerHTML = '<div class="error-message"><i class="fas fa-exclamation-circle"></i> Error generating code. Please try again.</div>';
+      } finally {
+        loadingSpinner.style.display = "none";
+      }
+    });
+
+    function copyCode() {
+      const codeDisplay = document.getElementById("codeDisplay").innerText;
+      const code = codeDisplay.replace('CODE: ', '');
+      const copyBtn = document.getElementById("copy");
+
+      navigator.clipboard.writeText(code).then(() => {
+        const originalText = copyBtn.innerHTML;
+        copyBtn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+        copyBtn.disabled = true;
+        copyBtn.style.opacity = "0.6";
+        copyBtn.style.cursor = "not-allowed";
+
+        const toast = document.getElementById("toast");
+        toast.style.display = "block";
+        toast.style.opacity = "1";
+
+        setTimeout(() => {
+          copyBtn.innerHTML = originalText;
+          copyBtn.disabled = false;
+          copyBtn.style.opacity = "1";
+          copyBtn.style.cursor = "pointer";
+
+          toast.style.opacity = "0";
+          setTimeout(() => {
+            toast.style.display = "none";
+          }, 300);
+        }, 2000);
+      }).catch(err => {
+        console.error("Failed to copy text: ", err);
+      });
+    }
+
+    // QR Code Timer
+    var timeleft = 30;
+    var downloadTimer = setInterval(function () {
+      if (timeleft <= 0) {
+        clearInterval(downloadTimer);
+        document.getElementById("progressBar").style.display = "none";
+        document.querySelector(".qr-title").textContent = "QR Expired!";
+        document.querySelector(".qr-description").textContent = "Please reload the page to generate a new QR code";
+      }
+      document.getElementById("progressBar").value = 30 - timeleft;
+      timeleft -= 1;
+    }, 1000);
+  </script>
+</body>
+</html>
